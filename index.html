@@ -21,7 +21,7 @@
    
 
 		var scene = new THREE.Scene();
-		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 20 );
 		//var renderer = new THREE.WebGLRenderer();
 		//renderer.setSize( window.innerWidth, window.innerHeight );
 		
@@ -34,14 +34,15 @@
         document.body.appendChild( renderer.domElement );
 
 		
-		var geometry = new THREE.BoxGeometry( 5, 5, 5);
-		var material = new THREE.MeshNormalMaterial();
+		var geometry = new THREE.BoxGeometry( 7, 2, 12);
+		var material = new THREE.MeshDepthMaterial( ); //MeshNormalMaterial();
 		
 		var cube = new THREE.Mesh( geometry, material );
-		//scene.add( cube );
+		scene.add( cube );
+		cube.position.y = -2.55;
         
-		camera.position.z = 25;
         
+		//camera.position.z = 25;
         
         var loader = new THREE.GLTFLoader();            
         loader.load( './untitled.gltf', function ( gltf )
@@ -60,7 +61,7 @@
         
 		
         new THREE.RGBELoader()
-					.load( 'royal_esplanade_1k.hdr', function ( texture ) {
+					.load( 'bg.hdr', function ( texture ) {
 
 						texture.mapping = THREE.EquirectangularReflectionMapping;
 
@@ -77,15 +78,26 @@
         
 
         
-        
+        let rotation = 0;
 		function render() {
 			requestAnimationFrame( render );
 			//cube.rotation.x += 0.01;
 			//cube.rotation.y += 0.11;
 			//cube.position.z = 5;
-            yandexcab.position.z = 18;
-            yandexcab.rotation.y += 0.011;            
-            yandexcab.rotation.x = 0.3;            
+            //yandexcab.position.z = 18;
+            //yandexcab.position.y = 1;
+            //yandexcab.rotation.y += 0.011; 
+            
+            
+            rotation += 0.01;
+camera.position.y = 2;
+camera.position.x = Math.sin(rotation) * 9;
+camera.position.z = Math.cos(rotation) * 9;
+camera.lookAt( scene.position ); // the origin
+            
+            
+         //   camera.rotation.y += 0.011;            
+            //yandexcab.rotation.x = 0.3;            
 			renderer.render( scene, camera );
 		}
 		render();
